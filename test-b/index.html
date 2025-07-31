@@ -1,0 +1,24 @@
+<body>
+    <p>Hello from container test-b</p>
+
+    <p>got from container test-a: <i>"<span id="greeting-msg"></span>"</i></p>
+
+</body>
+
+<script>
+    const url = "http://localhost:5001/greeting.json";
+    
+    (async ()=>{
+        const req = await fetch(url);
+        const reqBody = await req.json();
+        console.log(reqBody);
+        const showIn = document.getElementById("greeting-msg");
+        showIn.innerText = reqBody.greeting;
+
+        
+        delete showIn;
+        delete reqBody;
+        delete req;
+    })();
+
+</script>
