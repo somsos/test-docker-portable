@@ -9,7 +9,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./data/secrets/certs:/etc/nginx/certs:rw
       - ./data/vhost.d:/etc/nginx/vhost.d
       - ./data/reverse-proxy-html:/usr/share/nginx/html
