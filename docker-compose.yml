@@ -1,15 +1,6 @@
 version: '3.8'
 
 services:
-  reverse-proxy:
-    image: jwilder/nginx-proxy
-    container_name: reverse-proxy
-    ports:
-      - "80:80"
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-    networks:
-      - mynet
 
   test-a:
     build:
@@ -17,7 +8,7 @@ services:
     image: test-a:0.0.1
     container_name: test-a
     environment:
-      - VIRTUAL_HOST=api.mydomain.com
+      - VIRTUAL_HOST=api.test-ssl-51.duckdns.org
       - VIRTUAL_PORT=80
     expose:
       - "80"
@@ -30,10 +21,24 @@ services:
     image: test-b:0.0.1
     container_name: test-b
     environment:
-      - VIRTUAL_HOST=mydomain.com
+      - VIRTUAL_HOST=test-ssl-51.duckdns.org
       - VIRTUAL_PORT=80
     expose:
       - "80"
+    networks:
+      - mynet
+
+
+  reverse-proxy:
+    image: jwilder/nginx-proxy
+    container_name: reverse-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    depends_on:
+      - test-a
+      - test-b
     networks:
       - mynet
 
